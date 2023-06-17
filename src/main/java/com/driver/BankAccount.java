@@ -6,8 +6,37 @@ public class BankAccount {
     private double balance;
     private double minBalance;
 
-    public BankAccount(String name, double balance, double minBalance) {
+    public BankAccount() {
+    }
 
+    public BankAccount(String name, double balance, double minBalance) {
+        this.name = name;
+        this.balance = balance;
+        this.minBalance = minBalance;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+
+    public double getMinBalance() {
+        return minBalance;
+    }
+
+    public void setMinBalance(double minBalance) {
+        this.minBalance = minBalance;
     }
 
     public String generateAccountNumber(int digits, int sum) throws Exception{
@@ -15,17 +44,37 @@ public class BankAccount {
         //Generate account number having given number of 'digits' such that the sum of digits is equal to 'sum'
         //If it is not possible, throw "Account Number can not be generated" exception
 
-        return null;
+        if(digits * 9 < sum)
+            throw new Exception("Account can not be generated");
+        StringBuilder sb = new StringBuilder();
+        int S = sum - 1;
+        int D = digits;
+        while(D > 1){
+            if(S >= 9){
+                sb.append(9);
+                S-=9;
+            }
+            else{
+                sb.append(S);
+                S = 0;
+            }
+            D--;
+        }
+        sb.append(S+1);
+//        System.out.println(sb.toString());
+        return sb.toString();
     }
 
     public void deposit(double amount) {
         //add amount to balance
-
+        balance += amount;
     }
 
     public void withdraw(double amount) throws Exception {
         // Remember to throw "Insufficient Balance" exception, if the remaining amount would be less than minimum balance
-
+        if(minBalance < amount)
+            throw new Exception("Insufficient Balance");
+        balance -= amount;
     }
 
 }
